@@ -52,7 +52,12 @@ class CreateEmpComponents extends Component {
                     /*Navigate List page of the */
         EmployeeService.addEmployee(employee).then( res => {
           this.props.history.push('/employees');
+  })
+  .catch(error => {
+    console.error("Error adding employee:", error);
+    // Handle the error, e.g., show an error message to the user
   });
+  
     }
     cancel(){
         this.props.history.push('/employees');

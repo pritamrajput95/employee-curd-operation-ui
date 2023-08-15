@@ -7,14 +7,20 @@ class EmployeeService {
         return axios.get(EMP_API_BASE_URL+ "/employees");
     }
     addEmployee(employee){
-       return axios.post(EMP_API_BASE_URL+"/add");
+       return axios.post(EMP_API_BASE_URL+"/add/",employee);
     }
-    updateEmployee(employee){
-        return axios.put(EMP_API_BASE_URL+"/update");
+    getEmployeebyId(id){
+        return axios.get(EMP_API_BASE_URL+"/search/"+id);
      }
-     getEmployeebyId(id){
-       return axios.get(EMP_API_BASE_URL+"/update"+id);
+
+    updateEmployee(employee,id){
+        return axios.put(EMP_API_BASE_URL+"/update/"+ id, employee);
+     }
+
+     deleteEmployee(id){
+        return axios.delete(EMP_API_BASE_URL + "/delete/" + id);
     }
+    
 }
 
 export default new EmployeeService();

@@ -8,8 +8,8 @@ class UpdateEmpComponents extends Component {
         super(props)
         console.log("update emp component page is call");
         this.state={
-        id:this.props.match.params.id,
-        firstname:'',
+         id:this.props.match.params.id,
+         firstname:'',
          lastname :'',
          email:'',
          age: ''
@@ -27,12 +27,30 @@ class UpdateEmpComponents extends Component {
     componentDidMount(){
       EmployeeService.getEmployeebyId(this.state.id).then((res)=>{
         let employee=res.data;
-        this.setState({firstname:employee.firstname,lastname:employee.lastname,
-                      email:employee.email,age:employee.age
+        this.setState({firstname:employee.firstname,
+                       lastname:employee.lastname,
+                       email:employee.email,
+                       age:employee.age
                     });
     });
         
          }
+
+         updateEmployee=(e)=>{
+          e.preventDefault();
+          let employee ={firstname: this.state.firstname,
+                         lastname: this.state.lastname,
+                         email:this.state.email ,
+                         age:this.state.age
+  
+                      };
+                      console.log('employee => ' + JSON.stringify(employee));
+                      console.log('id => ' + JSON.stringify(this.state.id));
+
+                      EmployeeService.updateEmployee(employee, this.state.id).then( res => {
+                        this.props.history.push('/employees');
+                    });   
+      }
       
      
     
@@ -52,20 +70,7 @@ class UpdateEmpComponents extends Component {
     this.setState({ age: event.target.value });
     };
    
-    updateEmployee=(e)=>{
-        e.preventDefault();
-        let employee ={firstname: this.state.firstname,
-                       lastname: this.state.lastname,
-                       email:this.state.email ,
-                       age:this.state.age
-
-                    };
-                    console.log('employee=> ', JSON.stringify(employee));
-                  
-                    EmployeeService.updateEmployee(employee, this.state.id).then( res => {
-                      this.props.history.push('/update');
-                  });   
-    }
+   
     cancel(){
         this.props.history.push('/employees');
     }
@@ -78,42 +83,30 @@ class UpdateEmpComponents extends Component {
                 <h3 className='text-center'>update Employee from</h3>
                 <div className='card-body'>
                 <form>
-                   <label>FirstName :</label>
+                  <label>FirstName :</label>
                      <input placeholder='enter first name' name='firstname' className='form-control'
                      value={this.state.firstname} onChange={this.changeFirstNameHandler}/>
                   
                   <div>
-          <label>Last Name:</label>
-          <input
-            placeholder='Enter last name'
-            name='lastname'
-            className='form-control'
-            value={this.state.lastname}
-            onChange={this.changeLastNameHandler}
-          />
-        </div>
-        <div>
-          <label>Email ID:</label>
-          <input
-            placeholder='Enter email id'
-            name='email'
-            className='form-control'
-            value={this.state.email}
-            onChange={this.changeEmailHandler}
-        />
-        </div>
-        <div>
-          <label>Age:</label>
-          <input
-            placeholder='Enter age'
-            name='age'
-            className='form-control'
-            value={this.state.age}
-            onChange={this.changeAgeHandler}
-          />
-        </div>
+                  <label>Last Name:</label>
+                  <input
+                    placeholder='Enter last name' name='lastname' className='form-control'
+                    value={this.state.lastname}  onChange={this.changeLastNameHandler}   />
+                </div>
+                <div>
+                  <label>Email ID:</label>
+                  <input
+                    placeholder='Enter email id'  name='email'  className='form-control'
+                    value={this.state.email}   onChange={this.changeEmailHandler}   />
+                </div>
+                <div>
+                  <label>Age:</label>
+                  <input
+                    placeholder='Enter age'  name='age'  className='form-control' 
+                    value={this.state.age}  onChange={this.changeAgeHandler}    />
+                </div>
 
-        <div>
+            <div>
           <button className='btn btn-success' onClick={this.updateEmployee}>Update</button>
           <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancel</button>
           </div>

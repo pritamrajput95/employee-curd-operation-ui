@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import EmployeeService from  '../services/EmployeeService';
 import CreateEmpComponents from './CreateEmpComponents';
-import UpdateEmpComponents from './UpateEmpComponents';
+import UpdateEmpComponents from './UpdateEmpComponents';
 
 class ListEmpComponents extends Component {
    
@@ -14,6 +14,7 @@ class ListEmpComponents extends Component {
         }
         this.addEmployee=  this.addEmployee.bind(this);
         this.editEmployee=this.editEmployee.bind(this);
+        this.deleteEmployee = this.deleteEmployee.bind(this);
         
     }
    componentDidMount(){
@@ -24,8 +25,8 @@ class ListEmpComponents extends Component {
    addEmployee(){
    this.props.history.push('/add');
    }
-   editEmployee(id){
-    this.props.history.push('/update/${id}');
+    editEmployee(id) {
+        this.props.history.push(`/update/${id}`);
     }
     deleteEmployee(id){
         EmployeeService.deleteEmployee(id).then( res => {
@@ -42,9 +43,19 @@ class ListEmpComponents extends Component {
              </div>
 
               <div className='row' >
+
+              <div className='col-md-12'>
+                        <div
+                            style={{
+                                height: '430px', // Set the desired height for scrolling
+                                overflow: 'auto' // Enable scrolling
+                            }}
+                        >
+               
               <table className='table table-striped table-bordered' >
               <thead> 
                 <tr className='text-center'>
+                    <th>Id </th>
                     <th>FirstName </th>
                     <th>LastName </th>
                     <th>Email </th>
@@ -58,6 +69,7 @@ class ListEmpComponents extends Component {
                    { this.state.employees.map(
                         (employee)=>(
                           <tr key={employee.id}>
+                          <td>{employee.id}</td>  
                           <td>{employee.firstname}</td>
                           <td>{employee.lastname}</td>
                           <td>{employee.email}</td>
@@ -66,13 +78,15 @@ class ListEmpComponents extends Component {
 
                         <button onClick = { () => this.editEmployee(employee.id)} className="btn btn-info"> Update</button>
                         <button style={{marginLeft: "10px"}} onClick={ () => this.deleteEmployee(employee.id)} className="btn btn-danger">Delete </button>
-                        <button style={{marginLeft: "10px"}} onClick={ () => this.viewEmployee(employee.id)} className="btn btn-info">View </button>
                           </td>
                         </tr>
                     ))}
 
               </tbody>
               </table>
+
+            </div>
+            </div>
 
                 
                 </div> 
